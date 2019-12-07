@@ -8,14 +8,20 @@ if [ ${?} != 0 ]; then
 fi
 
 if [ ${0} !=  "./install.sh" ]; then
-  echo "Run './instll.sh' in mydc directory""
+  echo "Run './instll.sh' in mydc directory'"
 fi
 
 
 ### Deploy Scripts ###
 mkdir ~/.mydc
 
-cp -r ./template ~/.mydc/
+ls ./template/dots | while read fname; do
+  cp -r "./template/dots/${fname}" "./template/.${fname}"
+done
+ls ./template/undots | while read fname; do
+  cp -r "./template/undots/${fname}" "./template/${fname}"
+done
+
 if [ ${?} != 0 ]; then
   echo "Template copy error. Exit."
   exit 1

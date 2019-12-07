@@ -58,7 +58,7 @@ elif [ ${MODE} = "create" ]; then
     cp -r ${MYTMPL} ${MYHOME}
     docker run -it -h ${CNAME} \
         -v ${MYHOME}:/home/hogemin \
-        -v ${PWD}:/home/hogemin/vol \
+        -v ${PWD}:/vol \
         --name ${CNAME} mydc:latest
 else
     docker start -i ${CID}
