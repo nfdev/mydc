@@ -41,6 +41,7 @@ RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
     tmux vim zsh command-not-found\
+    man-db\
   ;
 
 ##### Setup as User #####
@@ -49,7 +50,6 @@ RUN useradd -m hogemin
 RUN chsh -s /bin/bash hogemin
 RUN usermod -aG sudo hogemin
 RUN echo "hogemin ALL=NOPASSWD: ALL" >> /etc/sudoers
-
 
 # Install Editor
 USER hogemin
@@ -64,3 +64,8 @@ RUN set -eux; \
 RUN set -eux; \
   pip3 install ipdb\
   ;
+
+# Setup bin
+COPY ./dcfile/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./dcfile/myapt /usr/local/bin/myapt
+COPY ./dcfile/dcupdate /usr/local/bin/dcupdate

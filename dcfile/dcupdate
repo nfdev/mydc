@@ -1,0 +1,11 @@
+#!/bin/bash
+
+declare MYAPT=`echo ~/.myapt`
+
+sudo apt-get update
+if [ -f ${MYAPT} ]; then
+  dpkg -l "${PKG}" >/dev/null 2>&1
+  if [ ${?} != 0 ]; then
+    sudo apt-get install -y --no-install-recommends "${PKG}"
+  fi
+fi

@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Check inputs
+#declare PKGS="$@"
+declare MYAPT=`echo ~/.myapt`
+
+# Install
+for PKG in "$@"
+do
+  dpkg -l "${PKG}" >/dev/null 2>&1
+  if [ ${?} != 0 ]; then
+    sudo apt-get install -y --no-install-recommends "${PKG}"
+    if [ ${?} == 0 ]; then
+      echo "${PKG}" >> "${MYAPT}"
+    fi
+  else
+    echo "Already installed. Exit."
+  fi
+done

@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -e
+
+# Usage
+usage_exit() {
+  echo "USAGE: $0"
+
+  exit 1
+}
+
+declare FORCE=""
+declare MYDC=`echo ~/.mydc` MYHOME="" CID="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
+
+# Check Input
+while getopts fh OPT
+do
+  case $OPT in
+    f)  FORCE="true"
+      ;;
+    h)  usage_exit
+      ;;
+  esac
+done
+
+# Check Environment
+if [ ! -d "${MYDC}" ]; then
+  echo "${MYDC} does not exists. Exit."
+  exit 1
+fi
+
+
+# Update base container
+
+if [ "${FORCE}" == "true" ]; then
+  docker pull ubuntu
+else
+  UBUNTU_BEFORE=`docker inspect ubuntu:latest -f "{{.RepoDigests}}"`
+  docker pull ubuntu
+  UBUNTU_AFTER=`docker inspect ubuntu:latest -f "{{.RepoDigests}}"`
+
+  if [ "${UBUNTU_BEFORE}" == "${UBUNTU_AFTER}" ]; then
+    echo "Don't need to update. Exit."
+    exit 1
+  fi
+fi
+
+# Update each containers
+MYHOME=${MYDC}/home
+ls ${MYHOME} | while read CNAME; do
+  CID=`docker ps -a -q -f "name=^${CNAME}$"`
+  if [ "${CID}" != "" ]; then
+    docker start -i "${CID}" < <(echo "sudo /usr/local/bin/dcupdate; exit")
+  else
+    echo "${CNAME} does not exist."
+  fi
+done
