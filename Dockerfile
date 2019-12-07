@@ -40,9 +40,8 @@ RUN set -eux; \
 RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
-    tmux vim \
+    tmux vim zsh command-not-found\
   ;
-
 
 ##### Setup as User #####
 # Setup User

@@ -1,0 +1,79 @@
+#!/bin/bash
+
+set -e
+
+# Usage
+usage_exit() {
+  echo "USAGE: $0 <container-name>"
+
+  exit 1
+}
+
+declare MODE="" REMOVE=""
+declare MYDC=`echo ~/.mydc` MYHOME="" MYTMPL=""
+
+# Check Input
+while getopts hr OPT
+do
+    case $OPT in
+        r)  REMOVE="true"
+            ;;
+        h)  usage_exit
+            ;;
+        \?) usage_exit
+            ;;
+    esac
+done
+
+# Inputs
+shift $((OPTIND - 1))
+CNAME=$1
+if [ "${CNAME}" = "" ]; then
+    usage_exit
+fi
+
+# Check Environment
+if [ ! -d "${MYDC}" ]; then
+    echo "${MYDC} does not exists. Exit."
+    exit 1
+fi
+
+
+# Main
+MYHOME=${MYDC}/home/${CNAME}
+MYTMPL=${MYDC}/template
+
+CID=`docker ps -a -q -f "name=^${CNAME}$" -f "ancestor=mydc"`
+if [ "${REMOVE}" == "true" ]; then
+    MODE="remove"
+elif [ "${CID}" = "" ]; then
+    MODE="create"
+else
+    MODE="run"
+fi
+
+if [ "${MODE}" = "remove" ]; then
+    if [ "${CID}" != "" ]; then
+      read -p "Do you really delete ${CNAME}? (y/N): " yn
+      case "$yn" in
+        [yY]* )
+          docker rm "$CID"
+          rm -r ${MYHOME}
+          echo "${CNAME} deleted."
+          ;;
+        * )
+          echo "Stop Remove"
+          ;;
+      esac
+    else
+      echo "${CNAME} does not exits."
+    fi
+elif [ "${MODE}" = "create" ]; then
+    cp -r "${MYTMPL}" "${MYHOME}"
+    docker run -it -h "${CNAME}" \
+        -v "${MYHOME}":/home/hogemin \
+        -v "${PWD}":/vol \
+        --name "${CNAME}" mydc:latest
+else
+    docker start -i "${CID}"
+fi
