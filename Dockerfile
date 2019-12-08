@@ -51,6 +51,9 @@ RUN chsh -s /bin/bash hogemin
 RUN usermod -aG sudo hogemin
 RUN echo "hogemin ALL=NOPASSWD: ALL" >> /etc/sudoers
 
+RUN mkdir /share && chown hogemin:hogemin /share
+RUN mkdir /orghome && chown hogemin:hogemin /orghome
+
 # Install Editor
 USER hogemin
 WORKDIR /home/hogemin
@@ -69,3 +72,10 @@ RUN set -eux; \
 COPY ./dcfile/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./dcfile/myapt /usr/local/bin/myapt
 COPY ./dcfile/dcupdate /usr/local/bin/dcupdate
+
+RUN cp -rf /home/hogemin /orghome
+
+VOLUME /home/hogemin
+VOLUME /share
+
+ENTRYPOINT /usr/local/bin/entrypoint.sh

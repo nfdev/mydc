@@ -3,7 +3,7 @@
 set -e
 
 # Constants
-declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME=""
+declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME="" MYSHARE=""
 
 ### Check Environment ###
 docker --version >/dev/null 2>&1
@@ -23,10 +23,12 @@ fi
 MYTMPL="${MYDC}/template"
 MYBIN="${MYDC}/bin"
 MYHOME="${MYDC}/home"
+MYHOME="${MYDC}/share"
 mkdir ${MYDC}
 mkdir ${MYTMPL}
 mkdir ${MYBIN}
 mkdir ${MYHOME}
+mkdir ${MYSHARE}
 
 ls ./template/dots | while read fname; do
   cp -r "./template/dots/${fname}" "${MYTMPL}/.${fname}"
@@ -47,7 +49,7 @@ echo "Install done."
 ##
 
 ### Setup for Shell ###
-echo "Run 'cat ./shrc >> ~/.zhsrc'"
+echo "Run 'cat ./[zb]shrc >> ~/.[zb]shsrc'"
 
 
 ### Exit ###

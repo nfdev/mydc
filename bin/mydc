@@ -10,7 +10,7 @@ usage_exit() {
 }
 
 declare MODE="" REMOVE=""
-declare MYDC=`echo ~/.mydc` MYHOME="" MYTMPL=""
+declare MYDC=`echo ~/.mydc` MYHOME="" MYSHARE="" MYTMPL=""
 
 # Check Input
 while getopts hr OPT
@@ -39,6 +39,7 @@ fi
 
 # Main
 MYHOME=${MYDC}/home/${CNAME}
+MYSHARE=${MYDC}/share
 MYTMPL=${MYDC}/template
 
 CID=`docker ps -a -q -f "name=^${CNAME}$" -f "ancestor=mydc"`
@@ -70,7 +71,7 @@ elif [ "${MODE}" = "create" ]; then
   cp -r "${MYTMPL}" "${MYHOME}"
   docker run -it -h "${CNAME}" \
       -v "${MYHOME}":/home/hogemin \
-      -v "${PWD}":/vol \
+      -v "${MYSHARE}":/share \
       --name "${CNAME}" mydc:latest
 else
   docker start -i "${CID}"

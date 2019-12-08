@@ -10,7 +10,7 @@ usage_exit() {
 }
 
 declare FORCE=""
-declare MYDC=`echo ~/.mydc` MYHOME="" CID="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
+declare MYDC=`echo ~/.mydc` MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
 
 # Check Input
 while getopts fh OPT
@@ -30,6 +30,7 @@ if [ ! -d "${MYDC}" ]; then
 fi
 
 
+
 # Update base container
 
 if [ "${FORCE}" == "true" ]; then
@@ -46,10 +47,19 @@ else
 fi
 
 # Update each containers
-MYHOME=${MYDC}/home
-ls ${MYHOME} | while read CNAME; do
+docker build --no-cache -t mydc:latest .
+MYHOMEROOT=${MYDC}/home
+ls ${MYHOMEROOT} | while read CNAME; do
   CID=`docker ps -a -q -f "name=^${CNAME}$"`
+  MYHOME="${MYHOMEROOT}/${CNAME}"
+  MYSHARE="${MYDC}/share"
+
   if [ "${CID}" != "" ]; then
+    docker rm "${CID}"
+    docker create -it -h "${CNAME}" \
+      -v "${MYHOME}":/home/hogemin \
+      -v "${MYSHARE}":/vol \
+      --name "${CNAME}" mydc:latest
     docker start -i "${CID}" < <(echo "sudo /usr/local/bin/dcupdate; exit")
   else
     echo "${CNAME} does not exist."
