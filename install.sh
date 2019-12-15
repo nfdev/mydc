@@ -23,7 +23,7 @@ fi
 MYTMPL="${MYDC}/template"
 MYBIN="${MYDC}/bin"
 MYHOME="${MYDC}/home"
-MYHOME="${MYDC}/share"
+MYSHARE="${MYDC}/share"
 mkdir ${MYDC}
 mkdir ${MYTMPL}
 mkdir ${MYBIN}
