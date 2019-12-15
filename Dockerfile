@@ -41,7 +41,7 @@ RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
     tmux vim zsh command-not-found\
-    man-db\
+    man-db openssh-client\
   ;
 
 ##### Setup as User #####

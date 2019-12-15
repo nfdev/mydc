@@ -59,6 +59,8 @@ ls ${MYHOMEROOT} | while read CNAME; do
     docker create -it -h "${CNAME}" \
       -v "${MYHOME}":/home/hogemin \
       -v "${MYSHARE}":/vol \
+      -v /var/run/docker.sock:/var/run/docker.sock \
+      -v /usr/bin/docker:/usr/bin/docker
       --name "${CNAME}" mydc:latest
     docker start -i "${CID}" < <(echo "sudo /usr/local/bin/dcupdate; exit")
   else

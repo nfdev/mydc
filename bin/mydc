@@ -13,10 +13,12 @@ declare MODE="" REMOVE=""
 declare MYDC=`echo ~/.mydc` MYHOME="" MYSHARE="" MYTMPL=""
 
 # Check Input
-while getopts hr OPT
+while getopts hrd OPT
 do
   case $OPT in
       r)  REMOVE="true"
+          ;;
+      d)  DOCKER="true"
           ;;
       h)  usage_exit
           ;;
@@ -70,9 +72,12 @@ if [ "${MODE}" = "remove" ]; then
 elif [ "${MODE}" = "create" ]; then
   cp -r "${MYTMPL}" "${MYHOME}"
   docker run -it -h "${CNAME}" \
-      -v "${MYHOME}":/home/hogemin \
-      -v "${MYSHARE}":/share \
-      --name "${CNAME}" mydc:latest
+    -v "${MYHOME}":/home/hogemin \
+    -v "${MYSHARE}":/share \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /usr/bin/docker:/usr/bin/docker \
+    --name "${CNAME}" mydc:latest
 else
   docker start -i "${CID}"
 fi
