@@ -65,3 +65,5 @@ ls ${MYHOMEROOT} | while read CNAME; do
     echo "${CNAME} does not exist."
   fi
 done
+
+exit 0

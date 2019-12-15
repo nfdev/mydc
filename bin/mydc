@@ -76,3 +76,5 @@ elif [ "${MODE}" = "create" ]; then
 else
   docker start -i "${CID}"
 fi
+
+exit 0
