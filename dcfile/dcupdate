@@ -1,6 +1,9 @@
 #!/bin/bash
 
 declare MYAPT=`echo ~/.myapt`
+declare MYDIR=~/.myfile
+declare MYLOG=~/.myfilelog
+
 
 sudo apt-get update
 if [ -f ${MYAPT} ]; then
@@ -8,4 +11,19 @@ if [ -f ${MYAPT} ]; then
   if [ ${?} != 0 ]; then
     sudo apt-get install -y --no-install-recommends "${PKG}"
   fi
+fi
+
+if [ -f ${MYLOG} -a -d ${MYDIR} ]; then
+  cat ${MYLOG} | while read line; do
+    FPATH=${line//,*}
+    SPATH=${line##*,}
+    if [ -f ${SPATH} ]; then
+      rm ${SPATH}
+    fi
+
+    ln -s ${FPATH} ${SPATH}
+    FUID=`stat -c '%U' ${FPATH}`
+    FGID=`stat -c '%G' ${FPATH}`
+    chown -h $FUID:$FGID ${SPATH}
+  done
 fi

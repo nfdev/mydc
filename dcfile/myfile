@@ -1,0 +1,68 @@
+#!/bin/bash
+
+set -e
+
+# Usage
+usage_exit() {
+  echo "USAGE: $0 <file>"
+
+  exit 1
+}
+
+declare MYDIR=~/.myfile
+declare MYLOG=~/.myfilelog
+
+# Check USER
+if [ ${EUID:-${UID}} != 0 ]; then
+  echo "Run this command in root mode."
+  exit 1
+fi
+
+# Check Input
+while getopts h OPT
+do
+  case $OPT in
+      h)  usage_exit
+          ;;
+  esac
+done
+
+# Inputs
+shift $((OPTIND - 1))
+SPATH=$1
+if [ "${SPATH}" = "" ]; then
+  usage_exit
+fi
+FPATH=${MYDIR}/${SPATH//\//_}
+if [ -f ${FPATH} ]; then
+  echo "${FPATH} already exists."
+  exit 1
+fi
+
+# Check Environment
+if [ ! -d ${MYDIR} ]; then
+  mkdir ${MYDIR}
+  chown hogemin:hogemin ${MYDIR}
+fi
+if [ ! -d ${MYLOG} ]; then
+  touch ${MYLOG}
+  chown hogemin:hogemin ${MYLOG}
+fi
+
+# Main
+if [ -L ${SPATH} ]; then
+  echo "${SPATH} is symbolic link. Stop procedure."
+  exit 1
+fi
+
+
+mv ${SPATH} ${FPATH}
+ln -s ${FPATH} ${SPATH}
+
+FUID=`stat -c '%U' ${FPATH}`
+FGID=`stat -c '%G' ${FPATH}`
+chown -h $FUID:$FGID ${SPATH}
+
+echo "${FPATH},${SPATH}" >> ${MYLOG}
+
+exit 0

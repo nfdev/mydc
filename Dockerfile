@@ -72,6 +72,7 @@ RUN set -eux; \
 COPY ./dcfile/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./dcfile/myapt /usr/local/bin/myapt
 COPY ./dcfile/dcupdate /usr/local/bin/dcupdate
+COPY ./dcfile/myfile /usr/local/bin/myfile
 
 RUN cp -rf /home/hogemin /orghome
 
