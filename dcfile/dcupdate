@@ -7,10 +7,12 @@ declare MYLOG=~/.myfilelog
 
 sudo apt-get update
 if [ -f ${MYAPT} ]; then
-  dpkg -l "${PKG}" >/dev/null 2>&1
-  if [ ${?} != 0 ]; then
-    sudo apt-get install -y --no-install-recommends "${PKG}"
-  fi
+  cat ${MYAPT} | while read PKG; do
+    dpkg -l "${PKG}" >/dev/null 2>&1
+    if [ ${?} != 0 ]; then
+      sudo apt-get install -y --no-install-recommends "${PKG}"
+    fi
+  done
 fi
 
 if [ -f ${MYLOG} -a -d ${MYDIR} ]; then
