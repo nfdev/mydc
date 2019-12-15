@@ -6,7 +6,7 @@ set -e
 declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME="" MYSHARE=""
 
 ### Check Environment ###
-docker --version >/dev/null 2>&1
+docker --version >/dev/null
 
 if [ ${0} !=  "./install.sh" ]; then
   echo "Run './instll.sh' in mydc directory'"
@@ -50,6 +50,7 @@ echo "Install done."
 
 ### Setup for Shell ###
 echo "Run 'cat ./[zb]shrc >> ~/.[zb]shsrc'"
+echo "Put ./config.json to ~/.docker"
 
 
 ### Exit ###
