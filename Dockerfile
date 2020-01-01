@@ -40,6 +40,7 @@ RUN set -eux; \
 RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
+    iproute2 iputils-ping\
     tmux vim zsh command-not-found\
     man-db openssh-client\
   ;
