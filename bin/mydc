@@ -59,7 +59,7 @@ if [ "${MODE}" = "remove" ]; then
     case "$yn" in
       [yY]* )
         docker rm "$CID"
-        rm -r ${MYHOME}
+        rm -rf ${MYHOME}
         echo "${CNAME} deleted."
         ;;
       * )
