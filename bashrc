@@ -1,18 +1,21 @@
+
 ##### MYDC Completion fo BASH #####
 
 export PATH=${PATH}:~/.mydc/bin
 
 _mydc() {
-  local cur prev cword envs
+  local cur prev cword envs myenvs
 
   if [ -z "${MYENVS}" ]; then
-    MYENVS="~/.mydc/home"
+    myenvs="${HOME}/.mydc/home"
+  else
+    myenvs=$(echo "${MYENVS}")
   fi
 
-  if [ ! -d "${MYENVS}" ]; then
+  if [ ! -d "${myenvs}" ]; then
     envs=""
   else
-    envs=$(ls "${MYENVS}")
+    envs=$(ls "${myenvs}")
   fi
   opts="-r"
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e
+set -eu
 
 # Constants
 declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME="" MYSHARE=""
@@ -49,7 +49,7 @@ echo "Install done."
 ##
 
 ### Setup for Shell ###
-echo "Run 'cat ./[zb]shrc >> ~/.[zb]shsrc'"
+echo "Run 'cat ./[zb]shrc >> ~/.[zb]shrc'"
 echo "Put ./config.json to ~/.docker"
 
 
