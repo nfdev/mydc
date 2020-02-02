@@ -52,6 +52,11 @@ echo "Install done."
 echo "Run 'cat ./[zb]shrc >> ~/.[zb]shrc'"
 echo "Put ./config.json to ~/.docker"
 
+### Setup for Shell ###
+if [ ! -d ~/.docker ]; then
+  mkdir ~/.docker
+fi
+echo "./config.json" >> ~/.docker/config.json
 
 ### Exit ###
 echo "Intall done."
