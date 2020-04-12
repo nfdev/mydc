@@ -4,7 +4,7 @@ MAINTAINER Admin <nfwork01@gmail.com>
 ##### Setup as Root #####
 # Remove install excludes
 
-RUN rm /etc/dpkg/dpkg.conf.d/excludes
+RUN rm /etc/dpkg/dpkg.cfg.d/excludes
 RUN set -eux; \
   apt-get update; \
   apt-get install --reinstall -y --no-install-recommends \

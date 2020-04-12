@@ -10,7 +10,7 @@ usage_exit() {
 }
 
 declare FORCE=""
-declare CDIR="" MYDC=`echo ~/.mydc` MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
+declare CDIR="" MYDC=`echo ~/.mydc` MYDF="" MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
 
 # Check Input
 while getopts fh OPT
@@ -47,10 +47,12 @@ else
 fi
 
 # Update each containers
+MYHOMEROOT="${MYDC}/home"
+MYDF="${MYDC}/dc"
 CDIR=`pwd`
-cd "${MYDC}"
+
+cd "${MYDF}"
 docker build --no-cache -t mydc:latest .
-MYHOMEROOT=${MYDC}/home
 ls ${MYHOMEROOT} | while read CNAME; do
   CID=`docker ps -a -q -f "name=^${CNAME}$"`
   MYHOME="${MYHOMEROOT}/${CNAME}"
