@@ -3,7 +3,7 @@
 set -eu
 
 # Constants
-declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME="" MYSHARE=""
+declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME="" MYSHARE="" MYDF=""
 
 ### Check Environment ###
 docker --version >/dev/null
@@ -24,6 +24,7 @@ MYTMPL="${MYDC}/template"
 MYBIN="${MYDC}/bin"
 MYHOME="${MYDC}/home"
 MYSHARE="${MYDC}/share"
+MYDF="${MYDC}/dc"
 mkdir ${MYDC}
 mkdir ${MYTMPL}
 mkdir ${MYBIN}
@@ -41,9 +42,15 @@ ls ./bin | while read fname; do
   cp -r "./bin/${fname}" "${MYBIN}/${fname}"
 done
 
+ls ./dc | while read fname; do
+  cp -r "./dc/${fname}" "${MYDF}/${fname}"
+done
+
 ### Build mydc ###
+cd ./dc
 docker build -t mydc:latest .
 echo "Install done."
+cd ../
 
 ##### Think about chown #####
 ##

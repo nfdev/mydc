@@ -10,7 +10,7 @@ usage_exit() {
 }
 
 declare FORCE=""
-declare MYDC=`echo ~/.mydc` MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
+declare CDIR="" MYDC=`echo ~/.mydc` MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
 
 # Check Input
 while getopts fh OPT
@@ -47,6 +47,8 @@ else
 fi
 
 # Update each containers
+CDIR=`pwd`
+cd "${MYDC}"
 docker build --no-cache -t mydc:latest .
 MYHOMEROOT=${MYDC}/home
 ls ${MYHOMEROOT} | while read CNAME; do
@@ -67,5 +69,6 @@ ls ${MYHOMEROOT} | while read CNAME; do
     echo "${CNAME} does not exist."
   fi
 done
+cd "${CDIR}"
 
 exit 0

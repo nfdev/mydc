@@ -2,6 +2,14 @@ FROM ubuntu
 MAINTAINER Admin <nfwork01@gmail.com>
 
 ##### Setup as Root #####
+# Remove install excludes
+
+RUN rm /etc/dpkg/dpkg.conf.d/excludes
+RUN set -eux; \
+  apt-get update; \
+  apt-get install --reinstall -y --no-install-recommends \
+    man bash
+
 # Install base lib
 RUN set -eux; \
   apt-get update; \
@@ -40,9 +48,11 @@ RUN set -eux; \
 RUN set -eux; \
   apt-get update; \
   apt-get install -y --no-install-recommends \
+    less tree\
     iproute2 iputils-ping\
     tmux vim zsh command-not-found\
-    man-db openssh-client\
+    man-db manpages-dev\
+    openssh-client\
   ;
 
 ##### Setup as User #####
@@ -54,6 +64,7 @@ RUN echo "hogemin ALL=NOPASSWD: ALL" >> /etc/sudoers
 
 RUN mkdir /share && chown hogemin:hogemin /share
 RUN mkdir /orghome && chown hogemin:hogemin /orghome
+
 
 # Install Editor
 USER hogemin
