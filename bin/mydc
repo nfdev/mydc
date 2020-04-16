@@ -10,7 +10,7 @@ usage_exit() {
 }
 
 declare MODE="" REMOVE=""
-declare MYDC=`echo ~/.mydc` MYHOME="" MYSHARE="" MYTMPL=""
+declare MYDC=`echo ~/.mydc` MYHOME="" MYSHARE="" MYTMPL="" DPATH=""
 
 # Check Input
 while getopts hrd OPT
@@ -43,6 +43,7 @@ fi
 MYHOME=${MYDC}/home/${CNAME}
 MYSHARE=${MYDC}/share
 MYTMPL=${MYDC}/template
+DPATH=`which docker`
 
 CID=`docker ps -a -q -f "name=^${CNAME}$" -f "ancestor=mydc"`
 if [ "${REMOVE}" == "true" ]; then
@@ -76,7 +77,7 @@ elif [ "${MODE}" = "create" ]; then
     -v "${MYSHARE}":/share \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /usr/bin/docker:/usr/bin/docker \
+    -v ${DPATH}:/usr/bin/docker \
     --name "${CNAME}" mydc:latest
 else
   docker start -i "${CID}"
