@@ -30,6 +30,7 @@ mkdir ${MYTMPL}
 mkdir ${MYBIN}
 mkdir ${MYHOME}
 mkdir ${MYSHARE}
+mkdir ${MYDF}
 
 ls ./template/dots | while read fname; do
   cp -r "./template/dots/${fname}" "${MYTMPL}/.${fname}"
