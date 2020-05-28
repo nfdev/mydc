@@ -76,7 +76,6 @@ elif [ "${MODE}" = "create" ]; then
     -v "${MYHOME}":/home/hogemin \
     -v "${MYSHARE}":/share \
     -v /var/run/docker.sock:/var/run/docker.sock \
-    -v /var/run/docker.sock:/var/run/docker.sock \
     -v ${DPATH}:/usr/bin/docker \
     --name "${CNAME}" mydc:latest
 else
