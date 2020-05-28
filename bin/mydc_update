@@ -5,12 +5,11 @@ set -e
 # Usage
 usage_exit() {
   echo "USAGE: $0"
-
   exit 1
 }
 
 declare FORCE=""
-declare CDIR="" MYDC=`echo ~/.mydc` MYDF="" MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
+declare CDIR="" MYDC=`echo ~/.mydc` MYDF="" MYHOMEROOT="" CID="" MYHOME="" MYSHARE="" DPATH="" UBUNTU_BEFORE="" UBUNTU_AFTER=""
 
 # Check Input
 while getopts fh OPT
@@ -29,6 +28,11 @@ if [ ! -d "${MYDC}" ]; then
   exit 1
 fi
 
+# Check Running container
+if [ `docker ps --filter status=running | wc -l` -gt 1 ]; then
+  echo "Some containers are runnning. Please stop all."
+  exit 1
+fi
 
 
 # Update base container
@@ -50,27 +54,30 @@ fi
 MYHOMEROOT="${MYDC}/home"
 MYDF="${MYDC}/dc"
 CDIR=`pwd`
+DPATH=`which docker`
 
 cd "${MYDF}"
 docker build --no-cache -t mydc:latest .
 ls ${MYHOMEROOT} | while read CNAME; do
+  echo "Create ${CNAME}"
+ 
   CID=`docker ps -a -q -f "name=^${CNAME}$"`
   MYHOME="${MYHOMEROOT}/${CNAME}"
   MYSHARE="${MYDC}/share"
 
   if [ "${CID}" != "" ]; then
     docker rm "${CID}"
-    docker create -it -h "${CNAME}" \
-      -v "${MYHOME}":/home/hogemin \
-      -v "${MYSHARE}":/vol \
-      -v /var/run/docker.sock:/var/run/docker.sock \
-      -v /usr/bin/docker:/usr/bin/docker \
-      --name "${CNAME}" mydc:latest
-    docker start -i "${CID}" < <(echo "sudo /usr/local/bin/dcupdate; exit")
-  else
-    echo "${CNAME} does not exist."
   fi
+
+  docker create -it -h "${CNAME}" \
+    -v "${MYHOME}":/home/hogemin \
+    -v "${MYSHARE}":/vol \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v ${DPATH}:/usr/bin/docker \
+    --name "${CNAME}" mydc:latest
+  docker start -i "${CNAME}" < <(echo "sudo /usr/local/bin/dcupdate; exit")
 done
+
 cd "${CDIR}"
 
 exit 0

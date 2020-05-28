@@ -25,7 +25,6 @@ RUN set -eux; \
   apt-get install -y --no-install-recommends \
     nodejs \
   ;
-
 RUN set -eux; \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -50,7 +49,7 @@ RUN set -eux; \
   apt-get install -y --no-install-recommends \
     less tree\
     iproute2 iputils-ping\
-    tmux vim zsh command-not-found\
+    tmux vim zsh\
     man-db manpages-dev\
     openssh-client\
   ;

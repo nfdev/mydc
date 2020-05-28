@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Check inputs
-#declare PKGS="$@"
-declare MYAPT=`echo ~/.myapt`
+declare MYAPT=/home/hogemin/.myapt
 
 # Install
 for PKG in "$@"

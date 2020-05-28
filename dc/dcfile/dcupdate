@@ -1,8 +1,8 @@
 #!/bin/bash
 
-declare MYAPT=`echo ~/.myapt`
-declare MYDIR=~/.myfile
-declare MYLOG=~/.myfilelog
+declare MYAPT=/home/hogemin/.myapt
+declare MYDIR=/home/hogemin/.myfile
+declare MYLOG=/home/hogemin/.myfilelog
 
 
 sudo apt-get update
