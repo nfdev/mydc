@@ -3,8 +3,11 @@ MAINTAINER Admin <nfwork01@gmail.com>
 
 ##### Setup as Root #####
 # Remove install excludes
-
 RUN rm /etc/dpkg/dpkg.cfg.d/excludes
+
+# Remove package commpresion settings for command-not-found
+RUN rm /etc/apt/apt.conf.d/docker-gzip-indexes
+
 RUN set -eux; \
   apt-get update; \
   apt-get install --reinstall -y --no-install-recommends \
@@ -25,6 +28,7 @@ RUN set -eux; \
   apt-get install -y --no-install-recommends \
     nodejs \
   ;
+
 RUN set -eux; \
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
   echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -49,10 +53,14 @@ RUN set -eux; \
   apt-get install -y --no-install-recommends \
     less tree\
     iproute2 iputils-ping\
-    tmux vim zsh\
+    tmux vim zsh command-not-found\
     man-db manpages-dev\
     openssh-client\
   ;
+
+# Update command-not-found db
+RUN set -eux; \
+  apt-get update;
 
 ##### Setup as User #####
 # Setup User
