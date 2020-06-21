@@ -19,5 +19,4 @@ sudo apt-get update
 
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
-echo "Add group 'docker' to your account."
-echo "usermod -aG docker <Your Accont>"
+usermod -aG docker ${USER}
