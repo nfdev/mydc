@@ -1,8 +1,18 @@
 #!/bin/bash
 
+set -u
+
+### Check Environment ###
+docker --version >/dev/null 2>&1
+if [ "$?" == 0 ]; then
+  # Docker already installed
+  exit 0
+fi
+
+### Install Docker ###
 sudo apt-get update
 
-sudo apt-get install \
+sudo apt-get install -y\
 	apt-transport-https \
 	ca-certificates \
 	curl \
@@ -16,7 +26,6 @@ sudo add-apt-repository \
 	stable"
 
 sudo apt-get update
-
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io
 
 sudo usermod -aG docker ${USER}
