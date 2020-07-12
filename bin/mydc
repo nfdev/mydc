@@ -4,21 +4,22 @@ set -e
 
 # Usage
 usage_exit() {
-  echo "USAGE: $0 <container-name>"
-
+  echo "USAGE: $0 [-r] <container-name>"
+  echo "  -r: Remove target container."
+  echo "  -f: Remove without yes/no check."
   exit 1
 }
 
-declare MODE="" REMOVE=""
+declare MODE="" REMOVE="" FORCE=""
 declare MYDC=`echo ~/.mydc` MYHOME="" MYSHARE="" MYTMPL="" DPATH=""
 
 # Check Input
-while getopts hrd OPT
+while getopts rfh OPT
 do
   case $OPT in
       r)  REMOVE="true"
           ;;
-      d)  DOCKER="true"
+      f)  FORCE="true"
           ;;
       h)  usage_exit
           ;;
@@ -56,7 +57,12 @@ fi
 
 if [ "${MODE}" = "remove" ]; then
   if [ "${CID}" != "" ]; then
-    read -p "Do you really delete ${CNAME}? (y/N): " yn
+    if [ "${FORCE}" != "true" ];
+      read -p "Do you really delete ${CNAME}? (y/N): " yn
+    else
+      yn=y
+    fi
+
     case "$yn" in
       [yY]* )
         docker rm "$CID"

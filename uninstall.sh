@@ -59,7 +59,7 @@ if [ -d ${MYDC} -a "${FORCE}"="true" ]; then
 fi
 
 ### Setup for Shell ###
-echo "Edit ~/.[zb]shsrc'"
+echo "Edit ~/.[zb]shsrc and delete mydc import line.'"
 
 ### Exit ###
 echo "Unintall done."

@@ -8,7 +8,8 @@ declare MYDC=`echo ~/.mydc` MYTMPL="" MYBIN="" MYHOME="" MYSHARE="" MYDF=""
 
 # Usage
 usage_exit() {
-  echo "USAGE: $0"
+  echo "USAGE: $0 [-f]"
+  echo "  -f: Force install if mydc already installed."
   exit 1
 }
 
@@ -84,7 +85,7 @@ done
 
 ### Build mydc ###
 cd ./dc
-docker build -t mydc:latest .
+docker build -q -t mydc:latest .
 echo "Install done."
 cd ../
 
@@ -92,10 +93,27 @@ cd ../
 ##
 
 ### Setup for Shell ###
-echo "Run 'cat ./[zb]shrc >> ~/.[zb]shrc'"
-echo "Put ./config.json to ~/.docker"
+if [ "${SHELL##*/}" == "bash" ]; then
+  if [ ! -d ~/.bash ]; then
+    mkdir ~/.bash
+  fi
+  cp ./bashrc ~/.bash/mydc
+  if [ "`grep 'source ~/.bash/mydc' ~/.bashrc | wc -l`" == 0 ]; then
+    echo -e "\nsource ~/.bash/mydc" >> ~/.bashrc
+  fi
+elif [ "${SHELL##*/}" == "zsh" ]; then
+  if [ ! -d ~/.zsh ]; then
+    mkdir ~/.zsh
+  fi
+  cp ./zshrc ~/.zsh/mydc
+  if [ "`grep 'source ~/.zsh/mydc' ~/.zshrc | wc -l`" == 0 ]; then
+    echo -e "\nsource ~/.zsh/mydc" >> ~/.zshrc
+  fi
+else
+  echo "mydc does not support ${SHELL""*/}"
+fi
 
-### Setup for Shell ###
+### Setup for docker ###
 if [ ! -d ~/.docker ]; then
   mkdir ~/.docker
 fi
