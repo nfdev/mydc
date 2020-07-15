@@ -57,7 +57,7 @@ fi
 
 if [ "${MODE}" = "remove" ]; then
   if [ "${CID}" != "" ]; then
-    if [ "${FORCE}" != "true" ];
+    if [ "${FORCE}" != "true" ]; then
       read -p "Do you really delete ${CNAME}? (y/N): " yn
     else
       yn=y
