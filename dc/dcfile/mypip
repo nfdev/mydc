@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Check inputs
+declare MYPIP=/home/hogemin/.mypip
+
+# Install
+for PKG in "$@"
+do
+  pip3 show "${PKG}" >/dev/null 2>&1
+  if [ ${?} != 0 ]; then
+    pip3 install -q "${PKG}"
+    if [ ${?} == 0 ]; then
+      echo "${PKG}" >> "${MYPIP}"
+    fi
+  else
+    echo "Already installed. Exit."
+  fi
+done

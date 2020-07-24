@@ -90,6 +90,7 @@ RUN set -eux; \
 # Setup bin
 COPY ./dcfile/entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY ./dcfile/myapt /usr/local/bin/myapt
+COPY ./dcfile/mypip /usr/local/bin/mypip
 COPY ./dcfile/dcupdate /usr/local/bin/dcupdate
 COPY ./dcfile/myfile /usr/local/bin/myfile
 

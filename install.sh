@@ -41,7 +41,7 @@ MYDF="${MYDC}/dc"
 
 if [ "${FORCE}" == "true" ];then
   # Keep my home and myshare, delete all others.
-  find ${MYDC} -maxdepth 1 -type d | grep -v "{$MYHOME}" | grep -v "{$MYSHARE}" \
+  find ${MYDC} -mindepth 1 -maxdepth 1 -type d | grep -v "${MYHOME}" | grep -v "${MYSHARE}" \
   | while read dname; do
     if [ -d ${dname} ]; then
       rm -rf ${dname}

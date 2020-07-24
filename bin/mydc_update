@@ -60,7 +60,7 @@ cd "${MYDF}"
 docker build --no-cache -t mydc:latest .
 ls ${MYHOMEROOT} | while read CNAME; do
   echo "Create ${CNAME}"
- 
+
   CID=`docker ps -a -q -f "name=^${CNAME}$"`
   MYHOME="${MYHOMEROOT}/${CNAME}"
   MYSHARE="${MYDC}/share"
