@@ -85,7 +85,7 @@ done
 
 ### Build mydc ###
 cd ./dc
-docker build -q -t mydc:latest .
+docker build -t mydc:latest .
 echo "Install done."
 cd ../
 

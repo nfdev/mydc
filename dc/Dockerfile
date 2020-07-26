@@ -1,7 +1,11 @@
 FROM ubuntu
 MAINTAINER Admin <nfwork01@gmail.com>
+ARG VERSION="2020072601"
 
 ##### Setup as Root #####
+# Sign version
+RUN echo $VERSION > /etc/mydc_version
+
 # Remove install excludes
 RUN rm /etc/dpkg/dpkg.cfg.d/excludes
 
