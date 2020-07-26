@@ -12,12 +12,6 @@ usage_exit() {
 declare MYDIR=/home/hogemin/.myfile
 declare MYLOG=/home/hogemin/.myfilelog
 
-# Check USER
-if [ ${EUID:-${UID}} != 0 ]; then
-  echo "Run this command in root mode."
-  exit 1
-fi
-
 # Check Input
 while getopts h OPT
 do
@@ -42,11 +36,9 @@ fi
 # Check Environment
 if [ ! -d ${MYDIR} ]; then
   mkdir ${MYDIR}
-  chown hogemin:hogemin ${MYDIR}
 fi
 if [ ! -d ${MYLOG} ]; then
   touch ${MYLOG}
-  chown hogemin:hogemin ${MYLOG}
 fi
 
 # Main
@@ -55,13 +47,12 @@ if [ -L ${SPATH} ]; then
   exit 1
 fi
 
-
-mv ${SPATH} ${FPATH}
-ln -s ${FPATH} ${SPATH}
+sudo mv ${SPATH} ${FPATH}
+sudo ln -s ${FPATH} ${SPATH}
 
 FUID=`stat -c '%U' ${FPATH}`
 FGID=`stat -c '%G' ${FPATH}`
-chown -h $FUID:$FGID ${SPATH}
+sudo chown -h $FUID:$FGID ${SPATH}
 
 echo "${FPATH},${SPATH}" >> ${MYLOG}
 

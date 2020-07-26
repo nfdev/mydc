@@ -34,9 +34,12 @@ if [ -f ${MYLOG} -a -d ${MYDIR} ]; then
       rm ${SPATH}
     fi
 
-    ln -s ${FPATH} ${SPATH}
+    sudo ln -s ${FPATH} ${SPATH}
+
     FUID=`stat -c '%U' ${FPATH}`
     FGID=`stat -c '%G' ${FPATH}`
-    chown -h $FUID:$FGID ${SPATH}
+    sudo chown -h $FUID:$FGID ${SPATH}
   done
 fi
+
+exit 0
