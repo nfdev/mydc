@@ -6,7 +6,7 @@ declare MYAPT=/home/hogemin/.myapt
 # Install
 for PKG in "$@"
 do
-  dpkg -l "${PKG}" >/dev/null 2>&1
+  dpkg -l "${PKG}" | grep '^ii' >/dev/null 2>&1
   if [ ${?} != 0 ]; then
     sudo apt-get install -y --no-install-recommends "${PKG}"
     if [ ${?} == 0 ]; then
