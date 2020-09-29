@@ -123,6 +123,11 @@ else
   echo 'Add "detachKeys": "ctrl-\\" to ~/.docker/config.json manually.'
 fi
 
+### Update current mydc if exists
+if [ "${FORCE}" == "true" ];then
+  ./bin/mydc_update -f
+fi
+
 ### Exit ###
 echo "Intall done."
 exit 0
