@@ -6,12 +6,14 @@ declare MYDIR=/home/hogemin/.myfile
 declare MYLOG=/home/hogemin/.myfilelog
 
 
+sudo rm ~/.local
+
 sudo apt-get update
 if [ -f ${MYAPT} ]; then
   cat ${MYAPT} | while read PKG; do
     dpkg -l "${PKG}" >/dev/null 2>&1
     if [ ${?} != 0 ]; then
-      sudo apt-get install -y --no-install-recommends "${PKG}"
+      sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends "${PKG}"
     fi
   done
 fi
