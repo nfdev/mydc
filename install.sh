@@ -117,7 +117,11 @@ fi
 if [ ! -d ~/.docker ]; then
   mkdir ~/.docker
 fi
-echo '{ "detachKeys": "ctrl-\\" }' >> ~/.docker/config.json
+if [ ! -e ~/.docker/config.json ]; then
+  echo '{ "detachKeys": "ctrl-\\" }' >> ~/.docker/config.json
+else
+  echo 'Add "detachKeys": "ctrl-\\" to ~/.docker/config.json manually.'
+fi
 
 ### Exit ###
 echo "Intall done."
