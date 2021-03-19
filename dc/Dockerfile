@@ -25,23 +25,13 @@ RUN set -eux; \
   ;
 
 # Setup for Javascript
-RUN set -eux; \
-  curl -sL https://deb.nodesource.com/setup_10.x | bash -;
-RUN set -eux; \
-  apt-get update; \
-  apt-get install -y --no-install-recommends \
-    nodejs \
-  ;
-
-RUN set -eux; \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-  ;
-RUN set -eux; \
-  apt-get update; \
-  apt-get install -y --no-install-recommends \
-    yarn \
-  ;
+# RUN set -eux; \
+#   curl -sL https://deb.nodesource.com/setup_10.x | bash -;
+# RUN set -eux; \
+#   apt-get update; \
+#   apt-get install -y --no-install-recommends \
+#     nodejs \
+#   ;
 
 # Setup for Python3
 RUN set -eux; \
@@ -97,6 +87,8 @@ COPY ./dcfile/myapt /usr/local/bin/myapt
 COPY ./dcfile/mypip /usr/local/bin/mypip
 COPY ./dcfile/dcupdate /usr/local/bin/dcupdate
 COPY ./dcfile/myfile /usr/local/bin/myfile
+COPY ./dcfile/codels /usr/local/bin/codels
+COPY ./dcfile/codesed /usr/local/bin/codesed
 
 RUN cp -rf /home/hogemin /orghome
 

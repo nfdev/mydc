@@ -6,9 +6,9 @@ on_ft = ['python','python3']
 repo = 'nvie/vim-flake8'
 on_ft = ['python','python3']
 
-"[[plugins]]
-"repo = 'davidhalter/jedi-vim'
-"on_ft = ['python','python3']
+[[plugins]]
+repo = 'davidhalter/jedi-vim'
+on_ft = ['python','python3']
 
 [[plugins]]
 repo = 'pangloss/vim-javascript'
